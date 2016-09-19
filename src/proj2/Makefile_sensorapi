@@ -1,0 +1,26 @@
+SDKDIR=${HOME}/tizen-sdk
+DEVICE_CORE=${SDKDIR}/platforms/tizen-2.4/mobile/rootstraps/mobile-2.4-device.core/
+
+LINK=-L${DEVICE_CORE}/usr/lib -L${DEVICE_CORE}/lib
+
+INCLUDE=-I${DEVICE_CORE}/usr/include
+
+# EDIT KERNEL CODE PATH
+INCLUDE+=-I<kernel code path>/include
+
+SYSROOT=${DEVICE_CORE}
+
+GCCROOT=/home/ha/lecture/osspr2016_ta/tizen-toolchain/opt/tizen-toolchain-4.9~git-i686_armv7l-tizen-linux-gnueabi-20151113/bin
+
+CFLAGS=$(INCLUDE) $(LINK) --sysroot=$(SYSROOT) -lcapi-system-sensor
+
+CC=$(GCCROOT)/armv7l-tizen-linux-gnueabi-gcc
+
+all: test
+
+test: test.c
+	@echo [Arm-cc] $<...
+	@$(CC) $(CFLAGS) $< -o $@
+
+clean:
+	@rm test
